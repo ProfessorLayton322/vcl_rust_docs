@@ -280,37 +280,65 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Rust version of Agner Fog's [vectorclass lib](https://github.com/vectorclass/version2)
 //!
 //! This crate contains a struct that containts four packed `f32` values and uses SIMD instructions
 //! to work with them
 //!
-//! This crate can only be compiled on x86 or x86 architecture and a proccessor that supports at
+//! This crate can only be compiled on `86` or `x86_64` architecture and a proccessor that supports at
 //! least `sse2` instruction set
+//!
+//! This crate also has `no_std` attribute
 
-</span><span class="attr">#[cfg(not(any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>)))]
+</span><span class="attr">#![no_std]
+
+#[cfg(not(any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>)))]
 </span><span class="macro">compile_error!</span>(<span class="string">"This crate is only supported for x86 and x86_64 architecture"</span>);
 
 <span class="attr">#[cfg(not(target_feature = <span class="string">"sse2"</span>))]
 </span><span class="macro">compile_error!</span>(<span class="string">"This crate requires sse2 to be compiled"</span>);
+
+<span class="attr">#[cfg(target_arch = <span class="string">"x86"</span>)]
+</span><span class="kw">use </span>core::arch::x86 <span class="kw">as </span>intrinsics;
+
+<span class="attr">#[cfg(target_arch = <span class="string">"x86_64"</span>)]
+</span><span class="kw">use </span>core::arch::x86_64 <span class="kw">as </span>intrinsics;
 
 <span class="comment">//Only compiled on x86/x86_64 with sse2
 </span><span class="attr">#[cfg(all(
     any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>),
     target_feature = <span class="string">"sse2"
 </span>))]
-</span><span class="kw">pub mod </span>vectorf128;
+</span><span class="kw">mod </span>vectorf128;
+<span class="attr">#[cfg(all(
+    any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>),
+    target_feature = <span class="string">"sse2"
+</span>))]
+</span><span class="kw">pub use </span>vectorf128::Vec4f;
 
-<span class="comment">//mod vectorf128e;
-//use crate::vectorf128e::vec128e::*;
-
-</span><span class="attr">#[cfg(all(
+<span class="attr">#[cfg(all(
     any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>),
     target_feature = <span class="string">"sse2"</span>,
     test
 ))]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use </span><span class="kw">crate</span>::vectorf128::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::Vec4f;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_basic() {
@@ -325,6 +353,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>d = Vec4f::default();
         d.load(<span class="kw-2">&amp;</span>arr);
         <span class="macro">assert_eq!</span>(d, [-<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">3.0</span>, -<span class="number">4.0</span>]);
+
+        <span class="kw">let </span>e = Vec4f::new(<span class="number">2.0</span>, <span class="number">4.0</span>, <span class="number">12.0</span>, -<span class="number">1.0</span>);
+        <span class="kw">let </span>f = Vec4f::new(<span class="number">2.0</span>, <span class="number">4.0</span>, <span class="number">12.0</span>, -<span class="number">1.0</span>);
+        <span class="macro">assert_eq!</span>(e, f);
+
+        <span class="kw">let </span>g = Vec4f::new(-<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">2.5</span>, <span class="number">3.0</span>);
+        <span class="macro">assert_ne!</span>(e, g);
     }
 
     <span class="attr">#[test]
@@ -350,8 +385,8 @@
 
         <span class="kw">let </span>first = Vec4f::new(<span class="number">5.0</span>, -<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">1.0</span>);
         <span class="kw">let </span>second = Vec4f::new(<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">2.0</span>, <span class="number">11.0</span>);
-        <span class="macro">assert_eq!</span>(max(first, second), [<span class="number">5.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">11.0</span>]);
-        <span class="macro">assert_eq!</span>(min(first, second), [<span class="number">1.0</span>, -<span class="number">2.0</span>, <span class="number">2.0</span>, <span class="number">1.0</span>]);
+        <span class="macro">assert_eq!</span>(Vec4f::max(first, second), [<span class="number">5.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">11.0</span>]);
+        <span class="macro">assert_eq!</span>(Vec4f::min(first, second), [<span class="number">1.0</span>, -<span class="number">2.0</span>, <span class="number">2.0</span>, <span class="number">1.0</span>]);
 
         <span class="kw">let </span>third = Vec4f::new(-<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">2.0</span>, -<span class="number">1.0</span>);
         <span class="macro">assert_eq!</span>(third.abs(), [<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">2.0</span>, <span class="number">1.0</span>]);
@@ -363,7 +398,7 @@
         );
 
         <span class="macro">assert_eq!</span>(
-            sign_combine(
+            Vec4f::sign_combine(
                 Vec4f::new(-<span class="number">2.0</span>, -<span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>),
                 Vec4f::new(-<span class="number">10.0</span>, <span class="number">0.0</span>, -<span class="number">20.0</span>, <span class="number">30.0</span>)
             ),
@@ -392,11 +427,8 @@
 
         <span class="macro">assert_eq!</span>(Vec4f::new(<span class="number">1.0</span>, <span class="number">1.4</span>, <span class="number">1.5</span>, <span class="number">1.6</span>).round(), [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">2.0</span>]);
 
-        <span class="comment">/*
-        assert_eq!(Vec4f::new(1.0, 1.5, 1.9, 2.0).truncate(),
-            [1.0, 1.0, 1.0, 2.0]);
-        */
-    </span>}
+        <span class="macro">assert_eq!</span>(Vec4f::new(<span class="number">1.0</span>, <span class="number">1.5</span>, <span class="number">1.9</span>, <span class="number">2.0</span>).truncate(), [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">2.0</span>]);
+    }
 
     <span class="kw">fn </span>compare_approx_vec4f(vec: <span class="kw-2">&amp;</span>Vec4f, expected: [f32; <span class="number">4</span>]) {
         <span class="kw">let </span><span class="kw-2">mut </span>arr = [<span class="number">0.0f32</span>; <span class="number">4</span>];

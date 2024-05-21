@@ -1074,43 +1074,109 @@
 <a href="#1072" id="1072">1072</a>
 <a href="#1073" id="1073">1073</a>
 <a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains `Vec4f` struct with methods and functions to work with it
 //!
 //! This crate can only be compiled on `x86` or `x86_64` architecture and a proccessor that supports at
 //! least `SSE2` instruction set
 
-</span><span class="comment">//This file should only be included if sse2 feature is supported and architecture is x86(_64)
-</span><span class="attr">#[cfg(not(any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>)))]
-</span><span class="macro">compile_error!</span>(
-    <span class="string">"Vector128 module is not supposed to be compiled on any architecture other than x86 or x86_64"
-</span>);
+</span><span class="kw">use </span><span class="kw">crate</span>::intrinsics::<span class="kw-2">*</span>;
 
-<span class="attr">#[cfg(not(target_feature = <span class="string">"sse2"</span>))]
-</span><span class="macro">compile_error!</span>(<span class="string">"Vector128 module requires sse2 feature to be compiled"</span>);
-
-<span class="attr">#[cfg(target_arch = <span class="string">"x86"</span>)]
-</span><span class="kw">use </span>std::arch::x86::<span class="kw-2">*</span>;
-
-<span class="attr">#[cfg(target_arch = <span class="string">"x86_64"</span>)]
-</span><span class="kw">use </span>std::arch::x86_64::<span class="kw-2">*</span>;
-
-<span class="kw">use </span>std::option::Option;
+<span class="kw">use </span>core::option::Option;
 
 <span class="kw">fn </span>selectf(s: __m128, a: __m128, b: __m128) -&gt; __m128 {
     <span class="attr">#[cfg(target_feature = <span class="string">"sse4.1"</span>)]
     </span>{
-        <span class="comment">//sse4.1
+        <span class="comment">// SAFETY: sse4.1
         </span><span class="kw">unsafe </span>{ _mm_blendv_ps(b, a, s) }
     }
     <span class="attr">#[cfg(not(target_feature = <span class="string">"sse4.1"</span>))]
     </span>{
-        <span class="comment">//sse2
+        <span class="comment">// SAFETY: sse2
         </span><span class="kw">unsafe </span>{ _mm_or_ps(_mm_and_ps(s, a), _mm_andnot_ps(s, b)) }
     }
 }
 
-<span class="doccomment">/// This struct is a wrapper around [__m128](https://doc.rust-lang.org/core/arch/x86/struct.__m128.html) intrinsic (or the same intrinsic from `x86_64` arch)
-</span><span class="attr">#[derive(Clone, Debug, Copy)]
+<span class="doccomment">/// Packed array of four `f32` values that can be used for SIMD operations
+</span><span class="attr">#[derive(Clone, Copy)]
 </span><span class="kw">pub struct </span>Vec4f {
     xmm: __m128,
 }
@@ -1124,14 +1190,14 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(vec, [1.0, 2.0, 3.0, 4.0]);
     /// ```
     </span><span class="kw">pub fn </span>new(a: f32, b: f32, c: f32, d: f32) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_setr_ps(a, b, c, d) },
         }
     }
@@ -1141,14 +1207,14 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::from_scalar(2.0);
     /// assert_eq!(vec, [2.0f32; 4]);
     /// ```
     </span><span class="kw">pub fn </span>from_scalar(value: f32) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_set1_ps(value) },
         }
     }
@@ -1158,7 +1224,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(vec.squared(), [1.0, 4.0, 9.0, 16.0]);
@@ -1178,7 +1244,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(vec.pow(3), [1.0, 8.0, 27.0, 64.0]);
@@ -1193,10 +1259,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>answer = Vec4f::from_scalar(<span class="number">1.0</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>power = <span class="self">self</span>;
         <span class="kw">loop </span>{
-            <span class="kw">if </span>(n &amp; <span class="number">1</span>) &gt; <span class="number">0 </span>{
+            <span class="kw">if </span>n % <span class="number">2 </span>&gt; <span class="number">0 </span>{
                 answer <span class="kw-2">*</span>= power;
             }
-            n &gt;&gt;= <span class="number">1</span>;
+            n /= <span class="number">2</span>;
             <span class="kw">if </span>n == <span class="number">0 </span>{
                 <span class="kw">break </span>answer;
             }
@@ -1214,7 +1280,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let mut arr = [0.0f32; 4];
@@ -1225,7 +1291,7 @@
         <span class="kw">if </span>buffer.len() &lt; <span class="number">4 </span>{
             <span class="macro">panic!</span>(<span class="string">"Buffer len not enough to store Vec128f"</span>);
         }
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="kw">unsafe </span>{ _mm_storeu_ps(buffer.as_mut_ptr(), <span class="self">self</span>.xmm) }
     }
 
@@ -1240,7 +1306,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let mut arr = [0.0f32; 7];
@@ -1260,7 +1326,7 @@
         </span><span class="kw">if </span>(buffer.as_ptr() <span class="kw">as </span>usize) &amp; <span class="number">0xf </span>&gt; <span class="number">0 </span>{
             <span class="macro">panic!</span>(<span class="string">"Buffer address is not aligned by 16"</span>);
         }
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="kw">unsafe </span>{ _mm_store_ps(buffer.as_mut_ptr(), <span class="self">self</span>.xmm) }
     }
 
@@ -1275,7 +1341,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let mut arr = [0.0f32; 7];
@@ -1295,7 +1361,7 @@
         </span><span class="kw">if </span>(buffer.as_ptr() <span class="kw">as </span>usize) &amp; <span class="number">0xf </span>&gt; <span class="number">0 </span>{
             <span class="macro">panic!</span>(<span class="string">"Buffer address is not aligned by 16"</span>);
         }
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="kw">unsafe </span>{ _mm_stream_ps(buffer.as_mut_ptr(), <span class="self">self</span>.xmm) }
     }
 
@@ -1304,7 +1370,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let mut arr = [0.0f32; 3];
@@ -1330,7 +1396,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let arr: [f32; 4] = [-2.0, 1.0, 3.0, -4.0];
     /// let mut d = Vec4f::default();
@@ -1341,7 +1407,7 @@
         <span class="kw">if </span>buffer.len() &lt; <span class="number">4 </span>{
             <span class="macro">panic!</span>(<span class="string">"Buffer len not enough to load verctor"</span>);
         }
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_loadu_ps(buffer.as_ptr()) };
     }
 
@@ -1355,7 +1421,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let mut vec = Vec4f::default();
     /// let arr = [2.0f32; 7];
@@ -1375,7 +1441,7 @@
         </span><span class="kw">if </span>(buffer.as_ptr() <span class="kw">as </span>usize) &amp; <span class="number">0xf </span>&gt; <span class="number">0 </span>{
             <span class="macro">panic!</span>(<span class="string">"Buffer address is not aligned by 16"</span>);
         }
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_load_ps(buffer.as_ptr()) };
     }
 
@@ -1385,7 +1451,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let arr = [-2.0, 1.0];
     /// let mut d = Vec4f::default();
@@ -1396,15 +1462,15 @@
         <span class="comment">//We can use get_unchecked because we know the size of the buffer
         </span><span class="kw">match </span>buffer.len() {
             <span class="number">0 </span>=&gt; <span class="kw-2">*</span><span class="self">self </span>= <span class="self">Self</span>::default(),
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="number">1 </span>=&gt; <span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_load_ss(buffer.as_ptr()) },
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="number">2 </span>=&gt; {
                 <span class="self">self</span>.xmm = <span class="kw">unsafe </span>{
                     _mm_setr_ps(<span class="kw-2">*</span>buffer.get_unchecked(<span class="number">0</span>), <span class="kw-2">*</span>buffer.get_unchecked(<span class="number">1</span>), <span class="number">0.0</span>, <span class="number">0.0</span>)
                 }
             }
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="number">3 </span>=&gt; {
                 <span class="self">self</span>.xmm = <span class="kw">unsafe </span>{
                     _mm_setr_ps(
@@ -1428,11 +1494,12 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let mut a = Vec4f::default();
-    /// a = a.insert(0, 6.0);
     /// a = a.insert(3, 23.0);
+    /// assert_eq!(a, [0.0, 0.0, 0.0, 23.0]);
+    /// a = a.insert(0, 6.0);
     /// assert_eq!(a, [6.0, 0.0, 0.0, 23.0]);
     /// ```
     </span><span class="kw">pub fn </span>insert(<span class="self">self</span>, index: usize, value: f32) -&gt; <span class="self">Self </span>{
@@ -1441,7 +1508,7 @@
         }
         <span class="attr">#[cfg(target_feature = <span class="string">"sse4.1"</span>)]
         </span>{
-            <span class="comment">//sse4.1
+            <span class="comment">// SAFETY: sse4.1
             </span><span class="self">Self </span>{
                 xmm: <span class="kw">unsafe </span>{ _mm_insert_ps(<span class="self">self</span>.xmm, _mm_set_ss(value), (index <span class="kw">as </span>i32) &lt;&lt; <span class="number">4</span>) },
             }
@@ -1449,11 +1516,11 @@
         <span class="attr">#[cfg(not(target_feature = <span class="string">"sse4.1"</span>))]
         </span>{
             <span class="kw">let </span>maskl: [i32; <span class="number">8</span>] = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
-            <span class="comment">//we can use .add because 4 - index is positive
+            <span class="comment">// SAFETY: we can use .add because 4 - index is positive
             </span><span class="kw">let </span>float_mask: <span class="kw-2">*const </span>f32 = <span class="kw">unsafe </span>{ maskl.as_ptr().add(<span class="number">4 </span>- index).cast() };
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="kw">let </span>broad: __m128 = <span class="kw">unsafe </span>{ _mm_set1_ps(value) };
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="kw">let </span>mask: __m128 = <span class="kw">unsafe </span>{ _mm_loadu_ps(float_mask) };
             <span class="self">Self </span>{
                 xmm: selectf(mask, broad, <span class="self">self</span>.xmm),
@@ -1470,16 +1537,15 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(unsafe { *vec.get_unchecked(2) }, 3.0);
     /// ```
     </span><span class="kw">pub unsafe fn </span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>f32 {
-        <span class="comment">//transmute can be used because __m128 is isinitialized and contains four floats
-        </span><span class="kw">let </span>float_pointer: <span class="kw-2">*const </span>f32 = <span class="kw">unsafe </span>{ std::mem::transmute(<span class="kw-2">&amp;</span><span class="self">self</span>.xmm <span class="kw">as </span><span class="kw-2">*const </span>__m128) };
-        <span class="comment">//add(index) is used accounting to index &lt; 4
-        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(float_pointer.add(index)) }
+        <span class="kw">let </span>float_pointer: <span class="kw-2">*const </span>f32 = <span class="kw-2">&amp;</span><span class="self">self</span>.xmm <span class="kw">as </span><span class="kw-2">*const </span>__m128 <span class="kw">as </span><span class="kw-2">*const </span>f32;
+        <span class="comment">// SAFETY: add(index) is used accounting to index &lt; 4
+        </span><span class="kw">unsafe </span>{ float_pointer.add(index).as_ref().unwrap() }
     }
 
     <span class="doccomment">/// Return reference to `f32` value by `index`. Returns `None` if `index` is greater than `3`
@@ -1487,7 +1553,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(*vec.get(2).unwrap(), 3.0);
@@ -1496,7 +1562,7 @@
         <span class="kw">if </span>index &gt; <span class="number">3 </span>{
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="comment">//We can use unsafe because we checked that index is in bounds
+        <span class="comment">// SAFETY: We can use unchecked because we checked that index is in bounds
         </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(index) })
     }
 
@@ -1505,7 +1571,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let e = Vec4f::new(-3.0, 2.0, 1.0, 11.0);
     /// assert_eq!(e.cutoff(2), [-3.0, 2.0, 0.0, 0.0]);
@@ -1515,40 +1581,47 @@
             <span class="kw">return </span><span class="self">self</span>;
         }
         <span class="kw">let </span>maskl: [i32; <span class="number">8</span>] = [-<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
-        <span class="comment">//we can use .add because 4 - size is positive
+        <span class="comment">// SAFETY: we can use .add because 4 - size is positive
         </span><span class="kw">let </span>float_mask: <span class="kw-2">*const </span>f32 = <span class="kw">unsafe </span>{ maskl.as_ptr().add(<span class="number">4 </span>- size).cast() };
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="kw">let </span>mask: __m128 = <span class="kw">unsafe </span>{ _mm_loadu_ps(float_mask) };
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">Self </span>{
             xmm: <span class="kw">unsafe </span>{ _mm_and_ps(<span class="self">self</span>.xmm, mask) },
         }
     }
 
-    <span class="comment">/*
-    //TODO - return original value instead of NaN
-    pub fn truncate(self) -&gt; Self {
-        #[cfg(target_feature = "sse4.1")] {
-            //sse4.1
-            Self {
-                xmm : unsafe { _mm_round_ps(self.xmm, 3 + 8) }
-            }
-        }
-        #[cfg(not(target_feature = "sse4.1"))] {
-            //sse2
-            Self {
-                xmm : unsafe { _mm_cvtepi32_ps(_mm_cvtps_epi32(self.xmm)) }
-            }
-        }
-    }
-    */
-
-    </span><span class="doccomment">/// Rounds all values to closest integer and returns modified copy
+    <span class="doccomment">/// Truncates all values towards zero and return modified copy
     ///
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
+    ///
+    /// let vec = Vec4f::new(1.0, 1.5, 1.9, 2.0);
+    /// assert_eq!(vec.truncate(), [1.0, 1.0, 1.0, 2.0]);
+    /// ```
+    </span><span class="kw">pub fn </span>truncate(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="attr">#[cfg(target_feature = <span class="string">"sse4.1"</span>)] </span>{
+            <span class="comment">// SAFETY: sse4.1
+            </span><span class="self">Self </span>{
+                xmm : <span class="kw">unsafe </span>{ _mm_round_ps(<span class="self">self</span>.xmm, <span class="number">3 </span>+ <span class="number">8</span>) },
+            }
+        }
+        <span class="attr">#[cfg(not(target_feature = <span class="string">"sse4.1"</span>))] </span>{
+            <span class="comment">// SAFETY: sse2
+            </span><span class="self">Self </span>{
+                xmm : <span class="kw">unsafe </span>{ _mm_cvtepi32_ps(_mm_cvttps_epi32(<span class="self">self</span>.xmm)) },
+            }
+        }
+    }
+
+    <span class="doccomment">/// Rounds all values to closest integer and returns modified copy
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 1.4, 1.5, 1.6);
     /// assert_eq!(vec.round(), [1.0, 1.0, 2.0, 2.0]);
@@ -1556,14 +1629,14 @@
     </span><span class="kw">pub fn </span>round(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="attr">#[cfg(target_feature = <span class="string">"sse4.1"</span>)]
         </span>{
-            <span class="comment">//sse4.1
+            <span class="comment">// SAFETY: sse4.1
             </span><span class="self">Self </span>{
                 xmm: <span class="kw">unsafe </span>{ _mm_round_ps(<span class="self">self</span>.xmm, <span class="number">8</span>) },
             }
         }
         <span class="attr">#[cfg(not(target_feature = <span class="string">"sse4.1"</span>))]
         </span>{
-            <span class="comment">//sse2
+            <span class="comment">// SAFETY: sse2
             </span><span class="self">Self </span>{
                 xmm: <span class="kw">unsafe </span>{ _mm_cvtepi32_ps(_mm_cvtps_epi32(<span class="self">self</span>.xmm)) },
             }
@@ -1575,14 +1648,14 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(0.0, 1.0, 2.0, 3.0);
     /// assert_eq!(vec.sqrt(), [0.0, 1.0, f32::sqrt(2.0), f32::sqrt(3.0)]);
     /// ```
     </span><span class="kw">pub fn </span>sqrt(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse2
+            <span class="comment">// SAFETY: sse2
             </span>xmm: <span class="kw">unsafe </span>{ _mm_sqrt_ps(<span class="self">self</span>.xmm) },
         }
     }
@@ -1592,7 +1665,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let approx = vec.approx_recipr();
@@ -1608,7 +1681,7 @@
     /// ```
     </span><span class="kw">pub fn </span>approx_recipr(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_rcp_ps(<span class="self">self</span>.xmm) },
         }
     }
@@ -1618,7 +1691,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// let approx = vec.approx_rsqrt();
@@ -1634,7 +1707,7 @@
     /// ```
     </span><span class="kw">pub fn </span>approx_rsqrt(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_rsqrt_ps(<span class="self">self</span>.xmm) },
         }
     }
@@ -1651,7 +1724,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(-2.0, 3.0, 2.0, -1.0);
     /// assert_eq!(
@@ -1665,7 +1738,7 @@
         <span class="kw">if </span>!(I0 | I1 | I2 | I3) {
             <span class="kw">return </span><span class="self">self</span>;
         }
-        <span class="comment">//sse2
+        <span class="comment">// SAFETY: sse2
         </span><span class="kw">let </span>mask: __m128i = <span class="kw">unsafe </span>{
             _mm_setr_epi32(
                 <span class="self">Self</span>::mask_helper(I0),
@@ -1675,7 +1748,7 @@
             )
         };
         <span class="self">Self </span>{
-            <span class="comment">//sse2
+            <span class="comment">// SAFETY: sse2
             </span>xmm: <span class="kw">unsafe </span>{ _mm_xor_ps(<span class="self">self</span>.xmm, _mm_castsi128_ps(mask)) },
         }
     }
@@ -1685,15 +1758,15 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(-2.0, 3.0, 2.0, -1.0);
     /// assert_eq!(vec.abs(), [2.0, 3.0, 2.0, 1.0]);
     /// ```
     </span><span class="kw">pub fn </span>abs(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="comment">//sse2
-        </span><span class="kw">let </span>mask: __m128 = <span class="kw">unsafe </span>{ _mm_castsi128_ps(_mm_set1_epi32(<span class="number">0x7FFFFFFF</span>)) };
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse2
+        </span><span class="kw">let </span>mask: __m128 = <span class="kw">unsafe </span>{ _mm_castsi128_ps(_mm_set1_epi32(i32::MAX)) };
+        <span class="comment">// SAFETY: sse
         </span><span class="self">Self </span>{
             xmm: <span class="kw">unsafe </span>{ _mm_and_ps(<span class="self">self</span>.xmm, mask) },
         }
@@ -1704,7 +1777,7 @@
     /// # Examples
     ///
     /// ```
-    /// use vcl_rust::vectorf128::Vec4f;
+    /// use vcl_rust::Vec4f;
     ///
     /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
     /// assert_eq!(vec.horizontal_add(), 10.0);
@@ -1712,7 +1785,7 @@
     </span><span class="kw">pub fn </span>horizontal_add(<span class="self">self</span>) -&gt; f32 {
         <span class="attr">#[cfg(target_feature = <span class="string">"sse3"</span>)]
         </span>{
-            <span class="comment">//sse3
+            <span class="comment">// SAFETY: sse3
             </span><span class="kw">unsafe </span>{
                 <span class="kw">let </span>t1: __m128 = _mm_hadd_ps(<span class="self">self</span>.xmm, <span class="self">self</span>.xmm);
                 <span class="kw">let </span>t2: __m128 = _mm_hadd_ps(t1, t1);
@@ -1721,7 +1794,7 @@
         }
         <span class="attr">#[cfg(not(target_feature = <span class="string">"sse3"</span>))]
         </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span><span class="kw">unsafe </span>{
                 <span class="kw">let </span>t1: __m128 = _mm_movehl_ps(<span class="self">self</span>.xmm, <span class="self">self</span>.xmm);
                 <span class="kw">let </span>t2: __m128 = _mm_add_ps(<span class="self">self</span>.xmm, t1);
@@ -1731,6 +1804,108 @@
             }
         }
     }
+
+    <span class="doccomment">/// Chooses maximum for each index from two vectors, returns the result
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vcl_rust::Vec4f;
+    ///
+    /// let first = Vec4f::new(5.0, -2.0, 3.0, 1.0);
+    /// let second = Vec4f::new(1.0, 2.0, 2.0, 11.0);
+    /// assert_eq!(Vec4f::max(first, second), [5.0, 2.0, 3.0, 11.0]);
+    /// ```
+    </span><span class="kw">pub fn </span>max(first: Vec4f, second: Vec4f) -&gt; Vec4f {
+        Vec4f {
+            <span class="comment">// SAFETY: sse
+            </span>xmm: <span class="kw">unsafe </span>{ _mm_max_ps(first.xmm, second.xmm) },
+        }
+    }
+
+    <span class="doccomment">/// Chooses minimum for each index from two vectors, returns the result
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vcl_rust::Vec4f;
+    ///
+    /// let first = Vec4f::new(5.0, -2.0, 3.0, 1.0);
+    /// let second = Vec4f::new(1.0, 2.0, 2.0, 11.0);
+    /// assert_eq!(Vec4f::min(first, second), [1.0, -2.0, 2.0, 1.0]);
+    /// ```
+    </span><span class="kw">pub fn </span>min(first: Vec4f, second: Vec4f) -&gt; Vec4f {
+        Vec4f {
+            <span class="comment">// SAFETY: sse
+            </span>xmm: <span class="kw">unsafe </span>{ _mm_min_ps(first.xmm, second.xmm) },
+        }
+    }
+
+    <span class="doccomment">/// Returns value of `a` with sign inverted if `b` has it's sign bit set (including `-0.0f32`)
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vcl_rust::Vec4f;
+    ///
+    /// assert_eq!(
+    ///     Vec4f::sign_combine(
+    ///         Vec4f::new(-2.0, -1.0, 0.0, 1.0),
+    ///         Vec4f::new(-10.0, 0.0, -20.0, 30.0)
+    ///     ),
+    ///     [2.0, -1.0, -0.0, 1.0]
+    /// );
+    /// ```
+    </span><span class="kw">pub fn </span>sign_combine(a: Vec4f, b: Vec4f) -&gt; Vec4f {
+        a ^ (b &amp; Vec4f::from_scalar(-<span class="number">0.0f32</span>))
+    }
+}
+
+
+<span class="doccomment">/// Constructs vector from array
+///
+/// # Examples
+///
+/// ```
+/// use vcl_rust::Vec4f;
+///
+/// let vec = Vec4f::from([1.0, 2.0, 3.0, 4.0]);
+/// assert_eq!(vec, [1.0, 2.0, 3.0, 4.0]);
+/// ```
+</span><span class="kw">impl </span>core::convert::From&lt;[f32; <span class="number">4</span>]&gt; <span class="kw">for </span>Vec4f {
+    <span class="kw">fn </span>from(value: [f32; <span class="number">4</span>]) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            <span class="comment">// SAFETY: sse
+            </span>xmm: <span class="kw">unsafe </span>{ _mm_loadu_ps(value.as_ptr()) },
+        }
+    }
+}
+
+<span class="doccomment">/// Constructs vector from slice 
+///
+/// # Panics
+///
+/// Panics if slice size is less than `4`
+///
+/// # Examples
+///
+/// ```
+/// use vcl_rust::Vec4f;
+///
+/// let arr = vec![-1.0, 2.0, 3.0, 1.5];
+/// let vec = Vec4f::from(arr.as_slice());
+/// assert_eq!(vec, [-1.0, 2.0, 3.0, 1.5]);
+/// ```
+</span><span class="kw">impl </span>core::convert::From&lt;<span class="kw-2">&amp;</span>[f32]&gt; <span class="kw">for </span>Vec4f {
+    <span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span>[f32]) -&gt; <span class="self">Self </span>{
+        <span class="kw">if </span>value.len() &lt; <span class="number">4 </span>{
+            <span class="macro">panic!</span>(<span class="string">"Slice size is not enough to construct a vector"</span>);
+        }
+        <span class="self">Self </span>{
+            <span class="comment">// SAFETY: sse
+            </span>xmm: <span class="kw">unsafe </span>{ _mm_loadu_ps(value.as_ptr()) },
+        }
+    }
 }
 
 <span class="doccomment">/// Creates vector initialized with `0.0` values
@@ -1738,12 +1913,12 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let vec = Vec4f::default();
 /// assert_eq!(vec, [0.0f32; 4]);
 /// ```
-</span><span class="kw">impl </span>std::default::Default <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::default::Default <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::from_scalar(<span class="number">0.0</span>)
     }
@@ -1754,18 +1929,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// let b = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// assert_eq!(a * b, [1.0, 4.0, 9.0, 16.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::Add <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Add <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_add_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1776,15 +1951,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(1.0, 3.0, 2.0, -2.0);
 /// a += Vec4f::new(-1.0, 2.0, 0.5, -3.0);
 /// assert_eq!(a, [0.0, 5.0, 2.5, -5.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::AddAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::AddAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>add_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_add_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -1794,18 +1969,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// let b = Vec4f::new(2.0, 1.0, 4.0, 5.0);
 /// assert_eq!(a - b, [-1.0, 1.0, -1.0, -1.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::Sub <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Sub <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>sub(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_sub_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1816,15 +1991,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(1.0, 3.0, 2.0, -2.0);
 /// a -= Vec4f::new(-1.0, 2.0, 0.5, -3.0);
 /// assert_eq!(a, [2.0, 1.0, 1.5, 1.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::SubAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::SubAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>sub_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_sub_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -1834,17 +2009,17 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::from_scalar(2.0);
 /// assert_eq!(-a, [-2.0f32; 4]);
 /// ```
-</span><span class="kw">impl </span>std::ops::Neg <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Neg <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>neg(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse2
+            <span class="comment">// SAFETY: sse2
             </span>xmm: <span class="kw">unsafe </span>{ _mm_xor_ps(<span class="self">self</span>.xmm, _mm_castsi128_ps(_mm_set1_epi32(i32::MIN))) },
         }
     }
@@ -1855,18 +2030,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// let b = Vec4f::new(2.0, 1.0, 4.0, 5.0);
 /// assert_eq!(a * b, [2.0, 2.0, 12.0, 20.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::Mul <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Mul <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>mul(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_mul_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1877,15 +2052,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(1.0, 3.0, 2.0, -2.0);
 /// a *= Vec4f::new(-1.0, 2.0, 0.5, -3.0);
 /// assert_eq!(a, [-1.0, 6.0, 1.0, 6.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::MulAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::MulAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>mul_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_mul_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -1895,18 +2070,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(3.0, 2.0, 10.0, -3.0);
 /// let b = Vec4f::new(-1.0, 2.0, -2.0, -3.0);
 /// assert_eq!(a / b, [-3.0, 1.0, -5.0, 1.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::Div <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Div <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>div(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_div_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1917,15 +2092,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(3.0, 2.0, 10.0, -3.0);
 /// a /= Vec4f::new(-1.0, 2.0, -2.0, -3.0);
 /// assert_eq!(a, [-3.0, 1.0, -5.0, 1.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::DivAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::DivAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>div_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_div_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -1935,18 +2110,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(2.0, 4.0, 12.0, -1.0);
 /// let b = Vec4f::new(3.0, 6.0, 8.0, 3.0);
 /// assert_eq!(a &amp; b, [2.0, 4.0, 8.0, 0.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitAnd <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitAnd <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>bitand(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_and_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1957,15 +2132,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(2.0, 4.0, 12.0, -1.0);
 /// a &amp;= Vec4f::new(3.0, 6.0, 8.0, 3.0);
 /// assert_eq!(a, [2.0, 4.0, 8.0, 0.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitAndAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitAndAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>bitand_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_and_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -1975,18 +2150,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(2.0, 4.0, 8.0, 3.0);
 /// let b = Vec4f::new(3.0, 2.0, 4.0, 2.0);
 /// assert_eq!(a | b, [3.0, 4.0, 16.0, 3.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitOr <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitOr <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>bitor(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_or_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -1997,15 +2172,15 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(2.0, 4.0, 8.0, 3.0);
 /// a |= Vec4f::new(3.0, 2.0, 4.0, 2.0);
 /// assert_eq!(a, [3.0, 4.0, 16.0, 3.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitOrAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitOrAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>bitor_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_or_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
 }
@@ -2015,18 +2190,18 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let a = Vec4f::new(2.0, 4.0, 8.0, 3.0);
 /// let b = Vec4f::new(2.0, 4.0, 8.0, 3.0);
 /// assert_eq!(a ^ b, [0.0, 0.0, 0.0, 0.0]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitXor <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitXor <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>bitxor(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <span class="comment">//sse
+            <span class="comment">// SAFETY: sse
             </span>xmm: <span class="kw">unsafe </span>{ _mm_xor_ps(<span class="self">self</span>.xmm, other.xmm) },
         }
     }
@@ -2037,17 +2212,39 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let mut a = Vec4f::new(2.0, 4.0, 12.0, -1.0);
 /// a ^= Vec4f::new(2.0, 4.0, 12.0, -1.0);
 /// assert_eq!(a, [0.0f32; 4]);
 /// ```
-</span><span class="kw">impl </span>std::ops::BitXorAssign <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::BitXorAssign <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>bitxor_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        <span class="comment">//sse
+        <span class="comment">// SAFETY: sse
         </span><span class="self">self</span>.xmm = <span class="kw">unsafe </span>{ _mm_xor_ps(<span class="self">self</span>.xmm, other.xmm) }
     }
+}
+
+<span class="doccomment">/// Comparison
+///
+/// # Examples
+///
+/// ```
+/// use vcl_rust::Vec4f;
+///
+/// let a = Vec4f::new(2.0, 4.0, 12.0, -1.0);
+/// let b = Vec4f::new(2.0, 4.0, 12.0, -1.0);
+/// assert_eq!(a, b);
+///
+/// let c = Vec4f::new(-1.0, 2.0, 2.5, 3.0);
+/// assert_ne!(a, c);
+/// ```
+</span><span class="kw">impl </span>core::cmp::PartialEq <span class="kw">for </span>Vec4f {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="comment">// SAFETY: sse
+        </span><span class="kw">let </span>comparison : i32 = <span class="kw">unsafe </span>{ _mm_movemask_ps(_mm_cmpeq_ps(<span class="self">self</span>.xmm, other.xmm)) };
+        comparison == <span class="number">0x0Fi32
+    </span>}
 }
 
 <span class="doccomment">/// Operator ==, compares vector to [f32; 4]
@@ -2055,16 +2252,14 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// assert_eq!(vec, [1.0, 2.0, 3.0, 4.0]);
 /// ```
-</span><span class="kw">impl </span>std::cmp::PartialEq&lt;[f32; <span class="number">4</span>]&gt; <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::cmp::PartialEq&lt;[f32; <span class="number">4</span>]&gt; <span class="kw">for </span>Vec4f {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[f32; <span class="number">4</span>]) -&gt; bool {
-        <span class="kw">let </span><span class="kw-2">mut </span>arr = [<span class="number">0.0f32</span>; <span class="number">4</span>];
-        <span class="self">self</span>.store(<span class="kw-2">&amp;mut </span>arr);
-        arr == <span class="kw-2">*</span>other
+        <span class="self">self</span>.eq(<span class="kw-2">&amp;</span>Vec4f::from(other <span class="kw">as </span><span class="kw-2">&amp;</span>[f32]))
     }
 }
 
@@ -2077,75 +2272,38 @@
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::Vec4f;
+/// use vcl_rust::Vec4f;
 ///
 /// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
 /// assert_eq!(vec[2], 3.0);
 /// ```
-</span><span class="kw">impl </span>std::ops::Index&lt;usize&gt; <span class="kw">for </span>Vec4f {
+</span><span class="kw">impl </span>core::ops::Index&lt;usize&gt; <span class="kw">for </span>Vec4f {
     <span class="kw">type </span>Output = f32;
 
     <span class="kw">fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>f32 {
         <span class="kw">if </span>index &gt; <span class="number">3 </span>{
             <span class="macro">panic!</span>(<span class="string">"Index out of bounds"</span>);
         }
-        <span class="comment">//get_unchecked can be used because index is checked
+        <span class="comment">// SAFETY: Get_unchecked can be used because index is checked
         </span><span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(index) }
     }
 }
 
-<span class="doccomment">/// Chooses maximum for each index from two vectors, returns the result
+<span class="doccomment">/// Reinterprets vector as `[f32; 4]` and formats it as a debug string
 ///
 /// # Examples
 ///
 /// ```
-/// use vcl_rust::vectorf128::{Vec4f, max};
+/// use vcl_rust::Vec4f;
 ///
-/// let first = Vec4f::new(5.0, -2.0, 3.0, 1.0);
-/// let second = Vec4f::new(1.0, 2.0, 2.0, 11.0);
-/// assert_eq!(max(first, second), [5.0, 2.0, 3.0, 11.0]);
+/// let vec = Vec4f::new(1.0, 2.0, 3.0, 4.0);
+/// println!("{:?}", vec);
 /// ```
-</span><span class="kw">pub fn </span>max(first: Vec4f, second: Vec4f) -&gt; Vec4f {
-    Vec4f {
-        <span class="comment">//sse
-        </span>xmm: <span class="kw">unsafe </span>{ _mm_max_ps(first.xmm, second.xmm) },
+</span><span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>Vec4f {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
+        <span class="kw">let </span><span class="kw-2">mut </span>arr = [<span class="number">0.0f32</span>; <span class="number">4</span>];
+        <span class="self">self</span>.store(<span class="kw-2">&amp;mut </span>arr);
+        arr.fmt(f)
     }
-}
-
-<span class="doccomment">/// Chooses minimum for each index from two vectors, returns the result
-///
-/// # Examples
-///
-/// ```
-/// use vcl_rust::vectorf128::{Vec4f, min};
-///
-/// let first = Vec4f::new(5.0, -2.0, 3.0, 1.0);
-/// let second = Vec4f::new(1.0, 2.0, 2.0, 11.0);
-/// assert_eq!(min(first, second), [1.0, -2.0, 2.0, 1.0]);
-/// ```
-</span><span class="kw">pub fn </span>min(first: Vec4f, second: Vec4f) -&gt; Vec4f {
-    Vec4f {
-        <span class="comment">//sse
-        </span>xmm: <span class="kw">unsafe </span>{ _mm_min_ps(first.xmm, second.xmm) },
-    }
-}
-
-<span class="doccomment">/// Returns value of `a` with sign inverted if `b` has it's sign bit set (including `-0.0f32`)
-///
-/// # Examples
-///
-/// ```
-/// use vcl_rust::vectorf128::{Vec4f, sign_combine};
-///
-/// assert_eq!(
-///     sign_combine(
-///         Vec4f::new(-2.0, -1.0, 0.0, 1.0),
-///         Vec4f::new(-10.0, 0.0, -20.0, 30.0)
-///     ),
-///     [2.0, -1.0, -0.0, 1.0]
-/// );
-/// ```
-</span><span class="kw">pub fn </span>sign_combine(a: Vec4f, b: Vec4f) -&gt; Vec4f {
-    a ^ (b &amp; Vec4f::from_scalar(-<span class="number">0.0f32</span>))
 }
 </code></pre></div></section></main></body></html>

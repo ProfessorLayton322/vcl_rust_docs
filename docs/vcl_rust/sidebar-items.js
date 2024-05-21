@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["vectorf128"]};
+window.SIDEBAR_ITEMS = {"struct":["Vec4f"]};
